@@ -3,11 +3,11 @@
 [![MkDocs](https://img.shields.io/badge/MkDocs-Material-blue)](https://squidfunk.github.io/mkdocs-material/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-green)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Deploy](https://github.com/YOUR_USERNAME/discharge-prediction-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/discharge-prediction-docs/actions)
+[![Deploy](https://github.com/rudeprover/discharge-prediction-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/rudeprover/discharge-prediction-docs/actions)
 
 An interactive MkDocs-based documentation site for learning hydrological discharge prediction using Python, featuring Simple Linear Regression, Multiple Linear Regression, and Artificial Neural Networks.
 
-🌐 **Live Site**: [https://YOUR_USERNAME.github.io/discharge-prediction-docs/](https://YOUR_USERNAME.github.io/discharge-prediction-docs/)
+🌐 **Live Site**: [https://rudeprover.github.io/discharge-prediction-docs/](https://rudeprover.github.io/discharge-prediction-docs/)
 
 ## 📚 Features
 
@@ -23,13 +23,13 @@ An interactive MkDocs-based documentation site for learning hydrological dischar
 ## 🚀 Quick Start
 
 ### Option 1: View Online
-Visit the live documentation at: https://YOUR_USERNAME.github.io/discharge-prediction-docs/
+Visit the live documentation at: https://rudeprover.github.io/discharge-prediction-docs/
 
 ### Option 2: Run Locally
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/discharge-prediction-docs.git
+   git clone https://github.com/rudeprover/discharge-prediction-docs.git
    cd discharge-prediction-docs
    ```
 
@@ -144,11 +144,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Your Name - [@your_twitter](https://twitter.com/your_twitter) - your.email@example.com
 
-Project Link: [https://github.com/YOUR_USERNAME/discharge-prediction-docs](https://github.com/YOUR_USERNAME/discharge-prediction-docs)
+Project Link: [https://github.com/rudeprover/discharge-prediction-docs](https://github.com/rudeprover/discharge-prediction-docs)
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=YOUR_USERNAME/discharge-prediction-docs&type=Date)](https://star-history.com/#YOUR_USERNAME/discharge-prediction-docs&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=rudeprover/discharge-prediction-docs&type=Date)](https://star-history.com/#rudeprover/discharge-prediction-docs&Date)
 
 ---
 
