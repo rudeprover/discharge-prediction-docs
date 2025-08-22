@@ -1,10 +1,10 @@
 site_name: Discharge Prediction with Python
 site_description: A comprehensive guide to hydrological predictions using Python
-site_author: Your Name
-site_url: https://YOUR_USERNAME.github.io/discharge-prediction-docs/
+site_author: Dr. Harsh Upadhyay(Scientist-B) NIH WRSD, Zuhail Abdullah (RPJ)
+site_url: https://rudeprover.github.io/discharge-prediction-docs/
 
-repo_name: YOUR_USERNAME/discharge-prediction-docs
-repo_url: https://github.com/YOUR_USERNAME/discharge-prediction-docs
+repo_name: rudeprover/discharge-prediction-docs
+repo_url: https://github.com/rudeprover/discharge-prediction-docs
 edit_uri: edit/main/docs/
 
 theme:
@@ -103,9 +103,9 @@ extra_css:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/YOUR_USERNAME
+      link: https://github.com/rudeprover
     - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/YOUR_USERNAME
+      link: https://linkedin.com/in/zuhail
   analytics:
     provider: google
     property: G-XXXXXXXXXX  # Add your Google Analytics ID here
