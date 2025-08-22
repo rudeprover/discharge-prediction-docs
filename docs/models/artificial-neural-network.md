@@ -6,11 +6,11 @@ Artificial Neural Networks are powerful machine learning models inspired by biol
 
 ## 🏗️ Network Architecture
 
-![ANN Architecture](../../assets/images/ANNN.png)
+![ANN Architecture](../assets/images/ANNN.png)
 
 ### Mathematical Foundation
 
-![ANN Equations](../../assets/images/ann_eq.png)
+![ANN Equations](../assets/images/ann_eq.png)
 
 The basic neuron computation:
 $$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
@@ -303,7 +303,7 @@ param_grid = {
 
 ## 🎯 Activation Functions
 
-![Activation Functions](../../assets/images/activation.png)
+![Activation Functions](../assets/images/activation.png)
 
 ### Common Activation Functions
 
@@ -316,7 +316,7 @@ param_grid = {
 
 ## 📚 Learning Rate Impact
 
-![Learning Rate](../../assets/images/learning_rate.png)
+![Learning Rate](../assets/images/learning_rate.png)
 
 ## ✅ Best Practices
 
