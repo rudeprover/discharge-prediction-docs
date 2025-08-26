@@ -21,7 +21,7 @@ Where:
 
 ### Visual Representation
 
-![MLR Equation](../assets/images/mlr_eqn.webp)
+
 
 ```mermaid
 graph LR

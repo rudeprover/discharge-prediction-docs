@@ -1,6 +1,6 @@
 # Discharge Prediction with Python
 
-![Python Logo](../assets/images/Python-Logo.jpg)
+
 *The foundation of scientific computing in this project.*
 
 ---
