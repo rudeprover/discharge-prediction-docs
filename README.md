@@ -141,7 +141,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-Your Name - [@Zuhail Abdullah](https://linkedin.com/in/zuhail)
+[@Zuhail Abdullah](https://linkedin.com/in/zuhail)
+[@Dr.Harsh Upadhyay]([https://linkedin.com/in/zuhail](https://www.linkedin.com/in/dr-harsh-upadhyay-893726189/))
 
 Project Link: [https://github.com/rudeprover/discharge-prediction-docs](https://github.com/rudeprover/discharge-prediction-docs)
 
