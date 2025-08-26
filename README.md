@@ -3,7 +3,6 @@
 [![MkDocs](https://img.shields.io/badge/MkDocs-Material-blue)](https://squidfunk.github.io/mkdocs-material/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-green)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Deploy](https://github.com/rudeprover/discharge-prediction-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/rudeprover/discharge-prediction-docs/actions)
 
 An interactive MkDocs-based documentation site for learning hydrological discharge prediction using Python, featuring Simple Linear Regression, Multiple Linear Regression, and Artificial Neural Networks.
 
@@ -142,7 +141,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter) - your.email@example.com
+Your Name - [@Zuhail Abdullah](https://linkedin.com/in/zuhail)
 
 Project Link: [https://github.com/rudeprover/discharge-prediction-docs](https://github.com/rudeprover/discharge-prediction-docs)
 
