@@ -24,32 +24,6 @@ An interactive MkDocs-based documentation site for learning hydrological dischar
 ### Option 1: View Online
 Visit the live documentation at: https://rudeprover.github.io/discharge-prediction-docs/
 
-### Option 2: Run Locally
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/rudeprover/discharge-prediction-docs.git
-   cd discharge-prediction-docs
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Serve locally**
-   ```bash
-   mkdocs serve
-   ```
-   Visit http://localhost:8000 in your browser
-
-### Option 3: Deploy Your Own
-
-1. Fork this repository
-2. Update `mkdocs.yml` with your GitHub username
-3. Enable GitHub Pages in repository settings
-4. Push changes to trigger automatic deployment
-
 ## 📂 Project Structure
 
 ```
