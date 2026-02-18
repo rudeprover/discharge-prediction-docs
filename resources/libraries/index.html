@@ -8,7 +8,7 @@
 <meta content="A comprehensive guide to hydrological predictions using Python" name="description"/>
 <meta content="Dr. Harsh Upadhyay(Scientist-B) NIH WRSD, Zuhail Abdullah (RPJ)" name="author"/>
 <link href="https://rudeprover.github.io/discharge-prediction-docs/resources/libraries/" rel="canonical"/>
-<link href="../../models/artificial-neural-network/" rel="prev"/>
+<link href="../../models/lstm/" rel="prev"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.6.17" name="generator"/>
 <title>Time Series Libraries - Discharge Prediction with Python</title>
@@ -131,8 +131,6 @@
           
   
   
-    
-  
   Setup
 
         </a>
@@ -141,8 +139,6 @@
 <a class="md-tabs__link" href="../../fundamentals/performance-metrics/">
           
   
-  
-    
   
   Fundamentals
 
@@ -153,8 +149,6 @@
           
   
   
-    
-  
   Models
 
         </a>
@@ -163,8 +157,6 @@
 <a class="md-tabs__link" href="./">
           
   
-  
-    
   
   Resources
 
@@ -178,7 +170,7 @@
 <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
 <a aria-label="Discharge Prediction with Python" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Discharge Prediction with Python">
 <img alt="logo" src="../../assets/images/nihlogo.png"/>
@@ -307,6 +299,14 @@
 <a class="md-nav__link" href="../../models/artificial-neural-network/">
 <span class="md-ellipsis">
     Artificial Neural Network
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../models/lstm/">
+<span class="md-ellipsis">
+    LSTM (Time Series)
     
   </span>
 </a>
@@ -554,219 +554,6 @@
 </li>
 </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#overview">
-<span class="md-ellipsis">
-      📚 Overview
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#top-time-series-libraries">
-<span class="md-ellipsis">
-      🌟 Top Time Series Libraries
-    </span>
-</a>
-<nav aria-label="🌟 Top Time Series Libraries" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-prophet-by-metafacebook">
-<span class="md-ellipsis">
-      1. Prophet (by Meta/Facebook)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-statsmodels-arima-sarimax">
-<span class="md-ellipsis">
-      2. statsmodels - ARIMA &amp; SARIMAX
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-darts-modern-time-series-library">
-<span class="md-ellipsis">
-      3. Darts - Modern Time Series Library
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#4-neuralprophet-neural-networks-meet-prophet">
-<span class="md-ellipsis">
-      4. NeuralProphet - Neural Networks meet Prophet
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#5-sktime-unified-time-series-framework">
-<span class="md-ellipsis">
-      5. sktime - Unified Time Series Framework
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#hydrology-specific-libraries">
-<span class="md-ellipsis">
-      🌊 Hydrology-Specific Libraries
-    </span>
-</a>
-<nav aria-label="🌊 Hydrology-Specific Libraries" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-hydroshare-python-client">
-<span class="md-ellipsis">
-      1. HydroShare Python Client
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-pyeto-evapotranspiration-calculations">
-<span class="md-ellipsis">
-      2. PyETo - Evapotranspiration Calculations
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-pastas-time-series-analysis-for-hydrology">
-<span class="md-ellipsis">
-      3. Pastas - Time Series Analysis for Hydrology
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#advanced-deep-learning-libraries">
-<span class="md-ellipsis">
-      🚀 Advanced Deep Learning Libraries
-    </span>
-</a>
-<nav aria-label="🚀 Advanced Deep Learning Libraries" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#tensorflowkeras-time-series">
-<span class="md-ellipsis">
-      TensorFlow/Keras Time Series
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#pytorch-forecasting">
-<span class="md-ellipsis">
-      PyTorch Forecasting
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#comparison-table">
-<span class="md-ellipsis">
-      📊 Comparison Table
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#choosing-the-right-library">
-<span class="md-ellipsis">
-      🎯 Choosing the Right Library
-    </span>
-</a>
-<nav aria-label="🎯 Choosing the Right Library" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#decision-tree">
-<span class="md-ellipsis">
-      Decision Tree
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#quick-start-templates">
-<span class="md-ellipsis">
-      💻 Quick Start Templates
-    </span>
-</a>
-<nav aria-label="💻 Quick Start Templates" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#hydrological-forecasting-pipeline">
-<span class="md-ellipsis">
-      Hydrological Forecasting Pipeline
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#learning-resources">
-<span class="md-ellipsis">
-      📖 Learning Resources
-    </span>
-</a>
-<nav aria-label="📖 Learning Resources" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#online-courses">
-<span class="md-ellipsis">
-      Online Courses
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#books">
-<span class="md-ellipsis">
-      Books
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#tutorials-blogs">
-<span class="md-ellipsis">
-      Tutorials &amp; Blogs
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#youtube-channels">
-<span class="md-ellipsis">
-      YouTube Channels
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#integration-with-this-guide">
-<span class="md-ellipsis">
-      🔄 Integration with This Guide
-    </span>
-</a>
 </li>
 </ul>
 </nav>
@@ -1158,7 +945,7 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.expand", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.expand", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
 <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

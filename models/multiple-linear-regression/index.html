@@ -132,8 +132,6 @@
           
   
   
-    
-  
   Setup
 
         </a>
@@ -142,8 +140,6 @@
 <a class="md-tabs__link" href="../../fundamentals/performance-metrics/">
           
   
-  
-    
   
   Fundamentals
 
@@ -154,8 +150,6 @@
           
   
   
-    
-  
   Models
 
         </a>
@@ -164,8 +158,6 @@
 <a class="md-tabs__link" href="../../resources/libraries/">
           
   
-  
-    
   
   Resources
 
@@ -179,7 +171,7 @@
 <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
-<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
 <a aria-label="Discharge Prediction with Python" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Discharge Prediction with Python">
 <img alt="logo" src="../../assets/images/nihlogo.png"/>
@@ -552,6 +544,14 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../lstm/">
+<span class="md-ellipsis">
+    LSTM (Time Series)
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </li>
@@ -580,244 +580,6 @@
 </li>
 </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#overview">
-<span class="md-ellipsis">
-      📊 Overview
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mathematical-foundation">
-<span class="md-ellipsis">
-      🎯 Mathematical Foundation
-    </span>
-</a>
-<nav aria-label="🎯 Mathematical Foundation" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#the-mlr-equation">
-<span class="md-ellipsis">
-      The MLR Equation
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#visual-representation">
-<span class="md-ellipsis">
-      Visual Representation
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#implementation">
-<span class="md-ellipsis">
-      🔨 Implementation
-    </span>
-</a>
-<nav aria-label="🔨 Implementation" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#step-1-import-libraries-and-load-data">
-<span class="md-ellipsis">
-      Step 1: Import Libraries and Load Data
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#step-2-feature-engineering">
-<span class="md-ellipsis">
-      Step 2: Feature Engineering
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#step-3-train-test-split">
-<span class="md-ellipsis">
-      Step 3: Train-Test Split
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#step-4-build-and-train-mlr-model">
-<span class="md-ellipsis">
-      Step 4: Build and Train MLR Model
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#step-5-extract-model-equation">
-<span class="md-ellipsis">
-      Step 5: Extract Model Equation
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#model-evaluation">
-<span class="md-ellipsis">
-      📈 Model Evaluation
-    </span>
-</a>
-<nav aria-label="📈 Model Evaluation" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#performance-metrics">
-<span class="md-ellipsis">
-      Performance Metrics
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#performance-comparison-table">
-<span class="md-ellipsis">
-      Performance Comparison Table
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#visualizations">
-<span class="md-ellipsis">
-      📊 Visualizations
-    </span>
-</a>
-<nav aria-label="📊 Visualizations" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-predicted-vs-observed-scatter-plot">
-<span class="md-ellipsis">
-      1. Predicted vs Observed Scatter Plot
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-time-series-comparison">
-<span class="md-ellipsis">
-      2. Time Series Comparison
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-feature-importance-visualization">
-<span class="md-ellipsis">
-      3. Feature Importance Visualization
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#4-residual-analysis">
-<span class="md-ellipsis">
-      4. Residual Analysis
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#model-interpretation">
-<span class="md-ellipsis">
-      🔍 Model Interpretation
-    </span>
-</a>
-<nav aria-label="🔍 Model Interpretation" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#understanding-coefficients">
-<span class="md-ellipsis">
-      Understanding Coefficients
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#advantages-and-limitations">
-<span class="md-ellipsis">
-      🎯 Advantages and Limitations
-    </span>
-</a>
-<nav aria-label="🎯 Advantages and Limitations" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#advantages-of-mlr">
-<span class="md-ellipsis">
-      ✅ Advantages of MLR
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#limitations">
-<span class="md-ellipsis">
-      ❌ Limitations
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#improvements-and-extensions">
-<span class="md-ellipsis">
-      🚀 Improvements and Extensions
-    </span>
-</a>
-<nav aria-label="🚀 Improvements and Extensions" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#1-feature-selection">
-<span class="md-ellipsis">
-      1. Feature Selection
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#2-regularization-ridgelasso">
-<span class="md-ellipsis">
-      2. Regularization (Ridge/Lasso)
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#3-polynomial-features">
-<span class="md-ellipsis">
-      3. Polynomial Features
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#next-steps">
-<span class="md-ellipsis">
-      📚 Next Steps
-    </span>
-</a>
 </li>
 </ul>
 </nav>
@@ -1217,7 +979,7 @@ y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n + \varepsilon
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.expand", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.expand", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
 <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

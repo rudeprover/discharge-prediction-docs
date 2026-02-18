@@ -263,8 +263,6 @@
           
   
   
-    
-  
   Setup
 
         </a>
@@ -284,8 +282,6 @@
         <a href="../../fundamentals/performance-metrics/" class="md-tabs__link">
           
   
-  
-    
   
   Fundamentals
 
@@ -307,8 +303,6 @@
           
   
   
-    
-  
   Models
 
         </a>
@@ -328,8 +322,6 @@
         <a href="../../resources/libraries/" class="md-tabs__link">
           
   
-  
-    
   
   Resources
 
@@ -359,7 +351,9 @@
   
 
 
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Discharge Prediction with Python" class="md-nav__button md-logo" aria-label="Discharge Prediction with Python" data-md-component="logo">
       
@@ -414,12 +408,6 @@
   
   
     
-    
-      
-        
-      
-        
-      
     
     
     
@@ -796,12 +784,6 @@
   
     
     
-      
-        
-      
-        
-      
-    
     
     
       
@@ -899,14 +881,6 @@
   
   
     
-    
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -1014,6 +988,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../models/lstm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LSTM (Time Series)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1028,10 +1025,6 @@
   
   
     
-    
-      
-        
-      
     
     
     
@@ -1106,266 +1099,6 @@
                 </div>
               </div>
             
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#dataset-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      📂 Dataset Structure
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="📂 Dataset Structure">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#expected-data-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      Expected Data Format
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#import-required-libraries" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔄 Import Required Libraries
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#loading-the-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      📥 Loading the Data
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="📥 Loading the Data">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basic-data-import" class="md-nav__link">
-    <span class="md-ellipsis">
-      Basic Data Import
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alternative-file-paths" class="md-nav__link">
-    <span class="md-ellipsis">
-      Alternative File Paths
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-exploration" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔍 Data Exploration
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🔍 Data Exploration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basic-information" class="md-nav__link">
-    <span class="md-ellipsis">
-      Basic Information
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#check-for-missing-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      Check for Missing Values
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-visualization" class="md-nav__link">
-    <span class="md-ellipsis">
-      📊 Data Visualization
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="📊 Data Visualization">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#time-series-plot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Time Series Plot
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#distribution-analysis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Distribution Analysis
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#identify-inputs-and-outputs" class="md-nav__link">
-    <span class="md-ellipsis">
-      🎯 Identify Inputs and Outputs
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🎯 Identify Inputs and Outputs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#for-simple-linear-regression-slr" class="md-nav__link">
-    <span class="md-ellipsis">
-      For Simple Linear Regression (SLR)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#for-multiple-linear-regression-mlr" class="md-nav__link">
-    <span class="md-ellipsis">
-      For Multiple Linear Regression (MLR)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flexible-input-selection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flexible Input Selection
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-preprocessing" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔧 Data Preprocessing
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="🔧 Data Preprocessing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#handle-missing-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      Handle Missing Values
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#remove-outliers-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      Remove Outliers (Optional)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#save-preprocessed-data" class="md-nav__link">
-    <span class="md-ellipsis">
-      💾 Save Preprocessed Data
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data-quality-checklist" class="md-nav__link">
-    <span class="md-ellipsis">
-      ✅ Data Quality Checklist
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      🚀 Next Steps
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
             
           
           
@@ -1819,7 +1552,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.expand", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.expand", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
