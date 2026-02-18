@@ -46,12 +46,13 @@ tf.random.set_seed(42)
 
 ### Step 2: Data Preparation
 
+> 📥 **Before you begin:** Download the discharge dataset here: [Discharge_30years.csv](../assets/data/Discharge_30years.csv)
+
 ```python
 # Load data
 df = pd.read_csv('Discharge_30years.csv', 
                  parse_dates=['Date'], 
                  index_col='Date')
-
 # Feature engineering (same as MLR)
 INPUTS = df.iloc[:, :-1]
 OUTPUT = df.iloc[:, -1]
