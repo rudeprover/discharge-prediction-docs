@@ -3,7 +3,6 @@
 [![MkDocs](https://img.shields.io/badge/MkDocs-Material-blue)](https://squidfunk.github.io/mkdocs-material/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-green)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Deploy](https://github.com/rudeprover/discharge-prediction-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/rudeprover/discharge-prediction-docs/actions)
 
 An interactive MkDocs-based documentation site for learning hydrological discharge prediction using Python, featuring Simple Linear Regression, Multiple Linear Regression, and Artificial Neural Networks.
 
@@ -24,32 +23,6 @@ An interactive MkDocs-based documentation site for learning hydrological dischar
 
 ### Option 1: View Online
 Visit the live documentation at: https://rudeprover.github.io/discharge-prediction-docs/
-
-### Option 2: Run Locally
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/rudeprover/discharge-prediction-docs.git
-   cd discharge-prediction-docs
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Serve locally**
-   ```bash
-   mkdocs serve
-   ```
-   Visit http://localhost:8000 in your browser
-
-### Option 3: Deploy Your Own
-
-1. Fork this repository
-2. Update `mkdocs.yml` with your GitHub username
-3. Enable GitHub Pages in repository settings
-4. Push changes to trigger automatic deployment
 
 ## 📂 Project Structure
 
@@ -142,7 +115,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter) - your.email@example.com
+[Zuhail Abdullah](https://linkedin.com/in/zuhail)
+
+[Dr.Harsh Upadhyay](https://www.linkedin.com/in/dr-harsh-upadhyay-893726189/)
 
 Project Link: [https://github.com/rudeprover/discharge-prediction-docs](https://github.com/rudeprover/discharge-prediction-docs)
 
