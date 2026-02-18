@@ -1,27 +1,8 @@
-.md-typeset .grid.cards > ul > li {
-  position: relative;
-  cursor: pointer;
-}
-
-.md-typeset .grid.cards > ul > li > a.card-link {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: block;
-  border-radius: inherit;
+.md-typeset .grid.cards a.card-title {
   color: inherit;
+  text-decoration: none;
 }
 
-.md-typeset .grid.cards > ul > li > :not(a.card-link) {
-  position: relative;
-  z-index: 2;
-}
-
-.md-typeset .grid.cards > ul > li > a.card-link:focus-visible {
-  outline: 2px solid var(--md-accent-fg-color);
-  outline-offset: 2px;
-}
-
-.md-typeset .grid.cards .doc-link {
-  font-weight: 600;
+.md-typeset .grid.cards a.card-title:hover {
+  text-decoration: underline;
 }
