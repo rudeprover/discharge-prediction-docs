@@ -6,3 +6,26 @@
 .md-typeset .grid.cards a.card-title:hover {
   text-decoration: underline;
 }
+
+/* Header + tabs styling to better match the (white) logo background. */
+[data-md-color-scheme="default"] .md-header,
+[data-md-color-scheme="default"] .md-tabs {
+  background-color: #ffffff;
+}
+
+[data-md-color-scheme="default"] .md-header__title,
+[data-md-color-scheme="default"] .md-header__button,
+[data-md-color-scheme="default"] .md-header__source,
+[data-md-color-scheme="default"] .md-tabs__link {
+  color: #1e88e5;
+}
+
+[data-md-color-scheme="default"] .md-tabs__link--active {
+  font-weight: 700;
+}
+
+/* Make the logo a bit more prominent. */
+.md-header__button.md-logo img {
+  height: 2rem;
+  width: auto;
+}

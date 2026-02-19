@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lstm-long-short-term-memory" class="md-skip">
+        <a href="#lstm-long-short-term-memory-for-discharge-prediction" class="md-skip">
           Skip to content
         </a>
       
@@ -846,10 +846,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#minimal-keras-example-time-series-regression" class="md-nav__link">
+  <a href="#what-we-will-build" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Minimal Keras example (time series regression)
+        What we will build
       
     </span>
   </a>
@@ -857,10 +857,159 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes-for-discharge-prediction" class="md-nav__link">
+  <a href="#step-0-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes for discharge prediction
+        Step 0: Environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-imports-and-reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Imports and reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-load-runoff_datacsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Load Runoff_Data.csv
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-choose-inputs-target-and-lookback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Choose inputs, target, and lookback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-convert-the-time-series-into-supervised-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Convert the time series into supervised sequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-trainvalidationtest-split-time-aware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Train/validation/test split (time-aware)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-scale-features-and-the-target-no-data-leakage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Scale features and the target (no data leakage)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-define-the-lstm-model-and-its-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Define the LSTM model and its parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7: Define the LSTM model and its parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-hyperparameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model hyperparameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-compile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build and compile
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-train-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Train the model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-predict-and-inverse-transform-to-real-discharge-units" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 9: Predict and inverse-transform to real discharge units
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-10-evaluate-r2-nse-rmse-pbias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 10: Evaluate (R², NSE, RMSE, PBIAS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-and-common-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes and common improvements
       
     </span>
   </a>
@@ -992,72 +1141,532 @@
   
 
 
-<h1 id="lstm-long-short-term-memory">LSTM (Long Short-Term Memory)<a class="headerlink" href="#lstm-long-short-term-memory" title="Permanent link">&para;</a></h1>
-<p>LSTM networks are a type of recurrent neural network (RNN) designed to learn patterns in sequential data (e.g., time series). For discharge prediction, LSTMs can capture temporal dependencies such as seasonality, delayed runoff response, and persistence effects.</p>
+<h1 id="lstm-long-short-term-memory-for-discharge-prediction">LSTM (Long Short-Term Memory) for Discharge Prediction<a class="headerlink" href="#lstm-long-short-term-memory-for-discharge-prediction" title="Permanent link">&para;</a></h1>
+<p>LSTM networks are a type of recurrent neural network (RNN) designed to learn patterns in sequential data (time series). In hydrology, LSTMs are often used to capture:</p>
+<ul>
+<li><strong>Seasonality</strong> (e.g., wet/dry season patterns),</li>
+<li><strong>Memory effects</strong> (discharge depends on previous months),</li>
+<li><strong>Delayed responses</strong> (rainfall → discharge lag),</li>
+<li><strong>Non-linear interactions</strong> between meteorology and discharge.</li>
+</ul>
+<p>This tutorial uses the repository dataset:</p>
+<blockquote>
+<p>Dataset: <a href="../../assets/data/Runoff_Data.csv">Runoff_Data.csv</a></p>
+</blockquote>
+<p>The file contains <strong>monthly</strong> records from <strong>1990-01</strong> to <strong>2019-12</strong> with these columns:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Date</code></td>
+<td>Month (YYYY-MM)</td>
+</tr>
+<tr>
+<td><code>Rainfall</code></td>
+<td>Monthly rainfall</td>
+</tr>
+<tr>
+<td><code>Tmin</code></td>
+<td>Monthly minimum temperature</td>
+</tr>
+<tr>
+<td><code>Tmax</code></td>
+<td>Monthly maximum temperature</td>
+</tr>
+<tr>
+<td><code>Discharge</code></td>
+<td>Monthly discharge (target)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="intuition-with-diagrams">Intuition (with diagrams)<a class="headerlink" href="#intuition-with-diagrams" title="Permanent link">&para;</a></h2>
 <h3 id="overall-flow">Overall flow<a class="headerlink" href="#overall-flow" title="Permanent link">&para;</a></h3>
 <p><img alt="LSTM overview" src="../../assets/images/lstm_1.png" /></p>
 <h3 id="inside-an-lstm-cell">Inside an LSTM cell<a class="headerlink" href="#inside-an-lstm-cell" title="Permanent link">&para;</a></h3>
 <p><img alt="LSTM cell" src="../../assets/images/lstm_cell.png" style="max-width: 720px; width: 100%;" /></p>
-<h2 id="minimal-keras-example-time-series-regression">Minimal Keras example (time series regression)<a class="headerlink" href="#minimal-keras-example-time-series-regression" title="Permanent link">&para;</a></h2>
-<p>The snippet below shows a typical workflow:</p>
-<ol>
-<li>Convert a 1D time series into sliding windows (lookback sequences)</li>
-<li>Train an LSTM to predict the next value</li>
-</ol>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequential</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">make_windows</span><span class="p">(</span><span class="n">series</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">lookback</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">series</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">series</span><span class="p">)</span> <span class="o">-</span> <span class="n">lookback</span><span class="p">):</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">lookback</span><span class="p">])</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">series</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">lookback</span><span class="p">])</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># (samples, lookback, 1 feature)</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># Example: replace with your discharge array (e.g., daily m^3/s)</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">discharge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">lookback</span> <span class="o">=</span> <span class="mi">30</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_windows</span><span class="p">(</span><span class="n">discharge</span><span class="p">,</span> <span class="n">lookback</span><span class="p">)</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">split</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">split</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">split</span><span class="p">:]</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">split</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">split</span><span class="p">:]</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    <span class="p">[</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>        <span class="n">LSTM</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">lookback</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>        <span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">),</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>        <span class="n">Dense</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>        <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    <span class="p">]</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="p">)</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">)</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    <span class="n">X_train</span><span class="p">,</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    <span class="n">y_train</span><span class="p">,</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a><span class="p">)</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predictions shape:&quot;</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</span></code></pre></div>
-<h2 id="notes-for-discharge-prediction">Notes for discharge prediction<a class="headerlink" href="#notes-for-discharge-prediction" title="Permanent link">&para;</a></h2>
+<h2 id="what-we-will-build">What we will build<a class="headerlink" href="#what-we-will-build" title="Permanent link">&para;</a></h2>
+<p>We will train an LSTM to predict <strong>next month discharge</strong> using the previous <code>lookback</code> months of:</p>
 <ul>
-<li><strong>Multiple inputs</strong>: You can add rainfall, temperature, and lagged features by stacking them as <code>(samples, lookback, n_features)</code>.</li>
-<li><strong>Scaling</strong>: LSTMs are sensitive to scale; standardize/normalize inputs and (optionally) the target.</li>
-<li><strong>Evaluation</strong>: Use the same metrics as other models (e.g., R², NSE, RMSE, PBIAS) and compare on the same test split.</li>
+<li><code>Rainfall</code>, <code>Tmin</code>, <code>Tmax</code>, and <strong>past <code>Discharge</code></strong> (as an input feature).</li>
 </ul>
+<p>This creates a supervised learning dataset of the form:</p>
+<ul>
+<li>Input <code>X[t]</code> = rows <code>[t-lookback, ..., t-1]</code> (a sequence),</li>
+<li>Target <code>y[t]</code> = <code>Discharge</code> at time <code>t</code> (the next step).</li>
+</ul>
+<h2 id="step-0-environment">Step 0: Environment<a class="headerlink" href="#step-0-environment" title="Permanent link">&para;</a></h2>
+<p>Recommended Python packages:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>scikit-learn<span class="w"> </span>matplotlib<span class="w"> </span>tensorflow
+</span></code></pre></div>
+<h2 id="step-1-imports-and-reproducibility">Step 1: Imports and reproducibility<a class="headerlink" href="#step-1-imports-and-reproducibility" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># (1)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>  <span class="c1"># (2)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>  <span class="c1"># (3)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>  <span class="c1"># (4)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>  <span class="c1"># (5)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>  <span class="c1"># (6)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>  <span class="c1"># (7)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequential</span>  <span class="c1"># (8)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span>  <span class="c1"># (9)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">EarlyStopping</span>  <span class="c1"># (10)</span>
+</span></code></pre></div>
+<ol>
+<li>Enables modern type annotation behavior in older Python versions.</li>
+<li>Makes file paths reliable across OSes.</li>
+<li>Provides fast numeric arrays used by both scikit-learn and TensorFlow.</li>
+<li>Loads and manipulates tabular time series data.</li>
+<li>Used for simple plots (learning curves, predicted vs observed).</li>
+<li>Standardizes features to mean=0 and std=1 (important for neural networks).</li>
+<li>TensorFlow is the deep learning backend for Keras.</li>
+<li><code>Sequential</code> builds a simple stack of layers.</li>
+<li>LSTM + dense layers form the forecasting model; dropout regularizes.</li>
+<li>Stops training when validation stops improving (reduces overfitting).</li>
+</ol>
+<p>For reproducible results:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># (1)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># (2)</span>
+</span></code></pre></div>
+<ol>
+<li>Fixes NumPy randomness (e.g., some internal sampling).</li>
+<li>Fixes TensorFlow randomness (initial weights, some ops).</li>
+</ol>
+<h2 id="step-2-load-runoff_datacsv">Step 2: Load <code>Runoff_Data.csv</code><a class="headerlink" href="#step-2-load-runoff_datacsv" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;docs/assets/data/Runoff_Data.csv&quot;</span><span class="p">)</span>  <span class="c1"># (1)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">DATA_PATH</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>  <span class="c1"># (2)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;Runoff_Data.csv&quot;</span><span class="p">)</span>  <span class="c1"># (3)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">)</span>  <span class="c1"># (4)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">)</span>  <span class="c1"># (5)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>  <span class="c1"># (6)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>  <span class="c1"># (7)</span>
+</span></code></pre></div>
+<ol>
+<li>Points to the dataset as stored in this documentation repo.</li>
+<li>Allows the same code to run if you downloaded/copied the CSV elsewhere.</li>
+<li>Fallback to the current working directory.</li>
+<li>Loads the CSV into a DataFrame.</li>
+<li>Parses <code>YYYY-MM</code> into a real datetime (month timestamps).</li>
+<li>Ensures correct chronological ordering and uses <code>Date</code> as the index.</li>
+<li>Quick sanity-check: view the first few rows.</li>
+</ol>
+<h2 id="step-3-choose-inputs-target-and-lookback">Step 3: Choose inputs, target, and <code>lookback</code><a class="headerlink" href="#step-3-choose-inputs-target-and-lookback" title="Permanent link">&para;</a></h2>
+<p>An LSTM expects input with shape:</p>
+<ul>
+<li><code>(samples, timesteps, features)</code></li>
+</ul>
+<p>Here, each sample is a <strong>sequence of months</strong>. We use:</p>
+<ul>
+<li><code>timesteps = lookback</code> (how many previous months to use),</li>
+<li><code>features = 4</code> (<code>Rainfall</code>, <code>Tmin</code>, <code>Tmax</code>, <code>Discharge</code>).</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">FEATURE_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Rainfall&quot;</span><span class="p">,</span> <span class="s2">&quot;Tmin&quot;</span><span class="p">,</span> <span class="s2">&quot;Tmax&quot;</span><span class="p">,</span> <span class="s2">&quot;Discharge&quot;</span><span class="p">]</span>  <span class="c1"># (1)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">TARGET_COL</span> <span class="o">=</span> <span class="s2">&quot;Discharge&quot;</span>  <span class="c1"># (2)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">LOOKBACK</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># (3)</span>
+</span></code></pre></div>
+<ol>
+<li>Defines which columns become model inputs at each time step.</li>
+<li>Defines the variable to predict.</li>
+<li>Uses the last 12 months (one year) to predict the next month (captures seasonality).</li>
+</ol>
+<h2 id="step-4-convert-the-time-series-into-supervised-sequences">Step 4: Convert the time series into supervised sequences<a class="headerlink" href="#step-4-convert-the-time-series-into-supervised-sequences" title="Permanent link">&para;</a></h2>
+<p>This function builds sliding windows (sequences) and tracks the corresponding target dates.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">make_sequences</span><span class="p">(</span>  <span class="c1"># (1)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>  <span class="c1"># (2)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">feature_cols</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>  <span class="c1"># (3)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">target_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>  <span class="c1"># (4)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">lookback</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>  <span class="c1"># (5)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">):</span>  <span class="c1"># (6)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">values</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># (7)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">target</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># (8)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">dates</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>  <span class="c1"># (9)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">X_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (10)</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">y_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (11)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">y_dates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (12)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lookback</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)):</span>  <span class="c1"># (13)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>        <span class="n">X_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">lookback</span> <span class="p">:</span> <span class="n">i</span><span class="p">])</span>  <span class="c1"># (14)</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>        <span class="n">y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>  <span class="c1"># (15)</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>        <span class="n">y_dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>  <span class="c1"># (16)</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">X_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (17)</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_list</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># (18)</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="n">y_dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_dates</span><span class="p">)</span>  <span class="c1"># (19)</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_dates</span>  <span class="c1"># (20)</span>
+</span></code></pre></div>
+<ol>
+<li>Defines a helper function to create LSTM-ready samples.</li>
+<li>The full time-indexed DataFrame.</li>
+<li>Column names used as input features per time step.</li>
+<li>Column name used as the prediction target.</li>
+<li>How many past time steps go into one sample.</li>
+<li>Function signature end.</li>
+<li>Extracts feature matrix as float32 (TensorFlow-friendly).</li>
+<li>Extracts the target vector as float32.</li>
+<li>Stores timestamps so we can split/evaluate by time.</li>
+<li>Holds each sequence sample (shape will become <code>(lookback, n_features)</code>).</li>
+<li>Holds each target value (one float per sample).</li>
+<li>Holds the timestamp for each target (the month being predicted).</li>
+<li>Starts at <code>lookback</code> so we always have enough history.</li>
+<li>Takes the previous <code>lookback</code> rows as the input sequence.</li>
+<li>Uses the current month discharge as the label (next-step target).</li>
+<li>Saves the date aligned with that label.</li>
+<li>Converts list of sequences into a single array <code>(samples, lookback, features)</code>.</li>
+<li>Converts labels list into array <code>(samples,)</code>.</li>
+<li>Converts label dates to array for indexing/splitting.</li>
+<li>Returns inputs, targets, and target timestamps.</li>
+</ol>
+<p>Create the supervised dataset:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_dates</span> <span class="o">=</span> <span class="n">make_sequences</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">FEATURE_COLS</span><span class="p">,</span> <span class="n">TARGET_COL</span><span class="p">,</span> <span class="n">LOOKBACK</span><span class="p">)</span>  <span class="c1"># (1)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X shape:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (2)</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y shape:&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (3)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First predicted month:&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">y_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">date</span><span class="p">())</span>  <span class="c1"># (4)</span>
+</span></code></pre></div>
+<ol>
+<li>Builds sequences and aligned labels.</li>
+<li>Should print <code>(samples, LOOKBACK, 4)</code>.</li>
+<li>Should print <code>(samples,)</code>.</li>
+<li>The first predicted month is after the first <code>LOOKBACK</code> rows.</li>
+</ol>
+<h2 id="step-5-trainvalidationtest-split-time-aware">Step 5: Train/validation/test split (time-aware)<a class="headerlink" href="#step-5-trainvalidationtest-split-time-aware" title="Permanent link">&para;</a></h2>
+<p>For time series, do <strong>not</strong> shuffle randomly: you want the model evaluated on <em>future</em> months.</p>
+<p>Below we use:</p>
+<ul>
+<li>70% train,</li>
+<li>15% validation,</li>
+<li>15% test,</li>
+</ul>
+<p>in chronological order.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># (1)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">train_end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.70</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>  <span class="c1"># (2)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">val_end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.85</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>  <span class="c1"># (3)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">train_end</span><span class="p">],</span> <span class="n">y</span><span class="p">[:</span><span class="n">train_end</span><span class="p">]</span>  <span class="c1"># (4)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_end</span><span class="p">:</span><span class="n">val_end</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_end</span><span class="p">:</span><span class="n">val_end</span><span class="p">]</span>  <span class="c1"># (5)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">val_end</span><span class="p">:],</span> <span class="n">y</span><span class="p">[</span><span class="n">val_end</span><span class="p">:]</span>  <span class="c1"># (6)</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">dates_train</span> <span class="o">=</span> <span class="n">y_dates</span><span class="p">[:</span><span class="n">train_end</span><span class="p">]</span>  <span class="c1"># (7)</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">dates_val</span> <span class="o">=</span> <span class="n">y_dates</span><span class="p">[</span><span class="n">train_end</span><span class="p">:</span><span class="n">val_end</span><span class="p">]</span>  <span class="c1"># (8)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">dates_test</span> <span class="o">=</span> <span class="n">y_dates</span><span class="p">[</span><span class="n">val_end</span><span class="p">:]</span>  <span class="c1"># (9)</span>
+</span></code></pre></div>
+<ol>
+<li>Total number of supervised samples after windowing.</li>
+<li>Index where the training set ends.</li>
+<li>Index where validation ends and test begins.</li>
+<li>Past months used for fitting.</li>
+<li>Used during training to tune hyperparameters and stop early.</li>
+<li>Held-out future months for final evaluation.</li>
+<li>Dates corresponding to <code>y_train</code>.</li>
+<li>Dates corresponding to <code>y_val</code>.</li>
+<li>Dates corresponding to <code>y_test</code>.</li>
+</ol>
+<h2 id="step-6-scale-features-and-the-target-no-data-leakage">Step 6: Scale features and the target (no data leakage)<a class="headerlink" href="#step-6-scale-features-and-the-target-no-data-leakage" title="Permanent link">&para;</a></h2>
+<p>Neural networks (including LSTMs) train faster and more stably if inputs are standardized.</p>
+<p>Important: fit scalers <strong>only on training data</strong>, then apply to validation/test.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">feature_scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>  <span class="c1"># (1)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">target_scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>  <span class="c1"># (2)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">X_train_2d</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># (3)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">X_val_2d</span> <span class="o">=</span> <span class="n">X_val</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_val</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># (4)</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">X_test_2d</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># (5)</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">feature_scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (6)</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">X_val_scaled</span> <span class="o">=</span> <span class="n">feature_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_val_2d</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_val</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (7)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">feature_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test_2d</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (8)</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">y_train_scaled</span> <span class="o">=</span> <span class="n">target_scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  <span class="c1"># (9)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">y_val_scaled</span> <span class="o">=</span> <span class="n">target_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_val</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  <span class="c1"># (10)</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="n">y_test_scaled</span> <span class="o">=</span> <span class="n">target_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  <span class="c1"># (11)</span>
+</span></code></pre></div>
+<ol>
+<li>Scales each input feature across the training set.</li>
+<li>Scales the target discharge (helps regression stability).</li>
+<li>Flattens <code>(samples, timesteps, features)</code> into 2D so scikit-learn can scale features.</li>
+<li>Same flattening for validation.</li>
+<li>Same flattening for test.</li>
+<li>Fits scaler on train and reshapes back to 3D for the LSTM.</li>
+<li>Applies the same scaling to validation (no refit).</li>
+<li>Applies the same scaling to test.</li>
+<li>Fits scaler on training targets.</li>
+<li>Scales validation targets with training scaler.</li>
+<li>Scales test targets with training scaler.</li>
+</ol>
+<h2 id="step-7-define-the-lstm-model-and-its-parameters">Step 7: Define the LSTM model and its parameters<a class="headerlink" href="#step-7-define-the-lstm-model-and-its-parameters" title="Permanent link">&para;</a></h2>
+<h3 id="model-hyperparameters">Model hyperparameters<a class="headerlink" href="#model-hyperparameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th style="text-align: right;">Example value</th>
+<th>What it controls</th>
+<th>Common effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LOOKBACK</code></td>
+<td style="text-align: right;"><code>12</code></td>
+<td>Sequence length (timesteps)</td>
+<td>More context vs fewer samples</td>
+</tr>
+<tr>
+<td><code>N_FEATURES</code></td>
+<td style="text-align: right;"><code>4</code></td>
+<td>Inputs per month</td>
+<td>More signals vs higher complexity</td>
+</tr>
+<tr>
+<td><code>LSTM_UNITS</code></td>
+<td style="text-align: right;"><code>64</code></td>
+<td>Memory/capacity of LSTM</td>
+<td>Underfit vs overfit</td>
+</tr>
+<tr>
+<td><code>DROPOUT</code></td>
+<td style="text-align: right;"><code>0.20</code></td>
+<td>Regularization strength</td>
+<td>Less overfit vs slower learning</td>
+</tr>
+<tr>
+<td><code>DENSE_UNITS</code></td>
+<td style="text-align: right;"><code>32</code></td>
+<td>Non-linear mixing after LSTM</td>
+<td>Expressiveness vs overfit</td>
+</tr>
+<tr>
+<td><code>LR</code></td>
+<td style="text-align: right;"><code>1e-3</code></td>
+<td>Learning rate</td>
+<td>Convergence speed vs stability</td>
+</tr>
+<tr>
+<td><code>BATCH_SIZE</code></td>
+<td style="text-align: right;"><code>32</code></td>
+<td>Samples per gradient step</td>
+<td>Stability vs speed</td>
+</tr>
+<tr>
+<td><code>EPOCHS</code></td>
+<td style="text-align: right;"><code>200</code></td>
+<td>Max training passes</td>
+<td>More learning vs overfit</td>
+</tr>
+<tr>
+<td><code>PATIENCE</code></td>
+<td style="text-align: right;"><code>20</code></td>
+<td>Early-stop patience</td>
+<td>Robust training vs longer runs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="build-and-compile">Build and compile<a class="headerlink" href="#build-and-compile" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">N_FEATURES</span> <span class="o">=</span> <span class="n">X_train_scaled</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># (1)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">LSTM_UNITS</span> <span class="o">=</span> <span class="mi">64</span>  <span class="c1"># (2)</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">DROPOUT</span> <span class="o">=</span> <span class="mf">0.20</span>  <span class="c1"># (3)</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">DENSE_UNITS</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># (4)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">LR</span> <span class="o">=</span> <span class="mf">1e-3</span>  <span class="c1"># (5)</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span>  <span class="c1"># (6)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="p">[</span>  <span class="c1"># (7)</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="n">LSTM</span><span class="p">(</span><span class="n">LSTM_UNITS</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">LOOKBACK</span><span class="p">,</span> <span class="n">N_FEATURES</span><span class="p">)),</span>  <span class="c1"># (8)</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="n">Dropout</span><span class="p">(</span><span class="n">DROPOUT</span><span class="p">),</span>  <span class="c1"># (9)</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>        <span class="n">Dense</span><span class="p">(</span><span class="n">DENSE_UNITS</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>  <span class="c1"># (10)</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>        <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># (11)</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    <span class="p">]</span>  <span class="c1"># (12)</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">)</span>  <span class="c1"># (13)</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>  <span class="c1"># (14)</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">LR</span><span class="p">),</span>  <span class="c1"># (15)</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span>  <span class="c1"># (16)</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mae&quot;</span><span class="p">],</span>  <span class="c1"># (17)</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="p">)</span>  <span class="c1"># (18)</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>  <span class="c1"># (19)</span>
+</span></code></pre></div>
+<ol>
+<li>Reads the number of features from data (should be <code>4</code>).</li>
+<li>Number of LSTM units (hidden size).</li>
+<li>Dropout fraction applied after the LSTM layer.</li>
+<li>Size of the intermediate dense layer.</li>
+<li>Learning rate for Adam optimizer.</li>
+<li>Starts a simple stacked model.</li>
+<li>Layer list begins.</li>
+<li>LSTM reads sequences shaped <code>(LOOKBACK, N_FEATURES)</code> and outputs a single vector.</li>
+<li>Randomly drops activations during training to reduce overfitting.</li>
+<li>Adds a non-linear transformation after the LSTM representation.</li>
+<li>Final regression output: one value (scaled discharge).</li>
+<li>Layer list ends.</li>
+<li>Model construction ends.</li>
+<li>Configures training objective and optimizer.</li>
+<li>Adam is a robust default optimizer for deep learning.</li>
+<li>MSE is standard for regression; it penalizes large errors.</li>
+<li>MAE is an interpretable auxiliary metric.</li>
+<li>Compile block ends.</li>
+<li>Prints layer shapes and parameter counts.</li>
+</ol>
+<h2 id="step-8-train-the-model">Step 8: Train the model<a class="headerlink" href="#step-8-train-the-model" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># (1)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># (2)</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">PATIENCE</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># (3)</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">early_stop</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span>  <span class="c1"># (4)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>  <span class="c1"># (5)</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">patience</span><span class="o">=</span><span class="n">PATIENCE</span><span class="p">,</span>  <span class="c1"># (6)</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="n">restore_best_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># (7)</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="p">)</span>  <span class="c1"># (8)</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>  <span class="c1"># (9)</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="n">X_train_scaled</span><span class="p">,</span>  <span class="c1"># (10)</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="n">y_train_scaled</span><span class="p">,</span>  <span class="c1"># (11)</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">X_val_scaled</span><span class="p">,</span> <span class="n">y_val_scaled</span><span class="p">),</span>  <span class="c1"># (12)</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span>  <span class="c1"># (13)</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>  <span class="c1"># (14)</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">early_stop</span><span class="p">],</span>  <span class="c1"># (15)</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># (16)</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="p">)</span>  <span class="c1"># (17)</span>
+</span></code></pre></div>
+<ol>
+<li>Maximum training epochs (early stopping may stop before this).</li>
+<li>Mini-batch size for gradient updates.</li>
+<li>How many epochs of non-improvement to tolerate before stopping.</li>
+<li>Creates an early-stopping callback.</li>
+<li>Watches validation loss (generalization) rather than training loss.</li>
+<li>Stops when validation loss doesn’t improve for <code>PATIENCE</code> epochs.</li>
+<li>Reverts to the best weights seen on validation.</li>
+<li>Callback definition ends.</li>
+<li>Starts model training.</li>
+<li>Training sequences.</li>
+<li>Training targets (scaled).</li>
+<li>Validation data used for early stopping and monitoring.</li>
+<li>Training loop maximum.</li>
+<li>Controls batch size.</li>
+<li>Adds early stopping.</li>
+<li>Prints progress.</li>
+<li>Training call ends; <code>history</code> contains learning curves.</li>
+</ol>
+<p>Plot learning curves:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>  <span class="c1"># (1)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>  <span class="c1"># (2)</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;val&quot;</span><span class="p">)</span>  <span class="c1"># (3)</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training vs validation loss&quot;</span><span class="p">)</span>  <span class="c1"># (4)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>  <span class="c1"># (5)</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;MSE&quot;</span><span class="p">)</span>  <span class="c1"># (6)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>  <span class="c1"># (7)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>  <span class="c1"># (8)</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># (9)</span>
+</span></code></pre></div>
+<ol>
+<li>Creates a compact figure.</li>
+<li>Training MSE per epoch.</li>
+<li>Validation MSE per epoch.</li>
+<li>Title.</li>
+<li>X-axis label.</li>
+<li>Y-axis label.</li>
+<li>Light grid for readability.</li>
+<li>Legend.</li>
+<li>Renders the plot.</li>
+</ol>
+<h2 id="step-9-predict-and-inverse-transform-to-real-discharge-units">Step 9: Predict and inverse-transform to real discharge units<a class="headerlink" href="#step-9-predict-and-inverse-transform-to-real-discharge-units" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">y_pred_test_scaled</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">y_pred_test</span> <span class="o">=</span> <span class="n">target_scaler</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_pred_test_scaled</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (2)</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">y_true_test</span> <span class="o">=</span> <span class="n">y_test</span>  <span class="c1"># (3)</span>
+</span></code></pre></div>
+<ol>
+<li>Produces predictions in the scaled space.</li>
+<li>Converts predictions back to original discharge units.</li>
+<li>Keeps ground-truth discharge in original units.</li>
+</ol>
+<h2 id="step-10-evaluate-r2-nse-rmse-pbias">Step 10: Evaluate (R², NSE, RMSE, PBIAS)<a class="headerlink" href="#step-10-evaluate-r2-nse-rmse-pbias" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">evaluate_regression</span><span class="p">(</span><span class="n">obs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>  <span class="c1"># (1)</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (2)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (3)</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">rmse</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">obs</span> <span class="o">-</span> <span class="n">sim</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>  <span class="c1"># (4)</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">mae</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">obs</span> <span class="o">-</span> <span class="n">sim</span><span class="p">)))</span>  <span class="c1"># (5)</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">r</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">sim</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># (6)</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">r2</span> <span class="o">=</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># (7)</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="n">nse</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">obs</span> <span class="o">-</span> <span class="n">sim</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">obs</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">obs</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># (8)</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    <span class="n">pbias</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">obs</span> <span class="o">-</span> <span class="n">sim</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">obs</span><span class="p">))</span>  <span class="c1"># (9)</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;RMSE&quot;</span><span class="p">:</span> <span class="n">rmse</span><span class="p">,</span> <span class="s2">&quot;MAE&quot;</span><span class="p">:</span> <span class="n">mae</span><span class="p">,</span> <span class="s2">&quot;R2&quot;</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span> <span class="s2">&quot;NSE&quot;</span><span class="p">:</span> <span class="n">nse</span><span class="p">,</span> <span class="s2">&quot;PBIAS&quot;</span><span class="p">:</span> <span class="n">pbias</span><span class="p">}</span>  <span class="c1"># (10)</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="n">metrics</span> <span class="o">=</span> <span class="n">evaluate_regression</span><span class="p">(</span><span class="n">y_true_test</span><span class="p">,</span> <span class="n">y_pred_test</span><span class="p">)</span>  <span class="c1"># (11)</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test metrics:&quot;</span><span class="p">)</span>  <span class="c1"># (12)</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># (13)</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># (14)</span>
+</span></code></pre></div>
+<ol>
+<li>Defines a small evaluation helper for common hydrology/regression metrics.</li>
+<li>Ensures observed values are 1D float array.</li>
+<li>Ensures simulated/predicted values are 1D float array.</li>
+<li>RMSE penalizes large errors more strongly.</li>
+<li>MAE is average absolute error (more robust to outliers).</li>
+<li>Pearson correlation (strength of linear association).</li>
+<li>R² reported as squared correlation (common in discharge prediction reports).</li>
+<li>Nash–Sutcliffe Efficiency (NSE): 1 is perfect, 0 is mean-predictor level.</li>
+<li>Percent bias (PBIAS): positive means underestimation, negative means overestimation.</li>
+<li>Returns all metrics in a dictionary.</li>
+<li>Computes metrics on the held-out test period.</li>
+<li>Prints a header.</li>
+<li>Iterates metrics.</li>
+<li>Prints formatted values.</li>
+</ol>
+<p>Plot predicted vs observed over time:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">test_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dates_test</span><span class="p">)</span>  <span class="c1"># (1)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>  <span class="c1"># (2)</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_index</span><span class="p">,</span> <span class="n">y_true_test</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>  <span class="c1"># (3)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_index</span><span class="p">,</span> <span class="n">y_pred_test</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Predicted&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>  <span class="c1"># (4)</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;LSTM: discharge prediction (test period)&quot;</span><span class="p">)</span>  <span class="c1"># (5)</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>  <span class="c1"># (6)</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Discharge&quot;</span><span class="p">)</span>  <span class="c1"># (7)</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>  <span class="c1"># (8)</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>  <span class="c1"># (9)</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>  <span class="c1"># (10)</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># (11)</span>
+</span></code></pre></div>
+<ol>
+<li>Converts test timestamps to a Pandas datetime index for plotting.</li>
+<li>Creates the figure.</li>
+<li>Plots observed discharge for the test period.</li>
+<li>Plots LSTM predictions aligned with the same months.</li>
+<li>Title.</li>
+<li>X-axis label.</li>
+<li>Y-axis label.</li>
+<li>Grid.</li>
+<li>Legend.</li>
+<li>Avoids label clipping.</li>
+<li>Shows the plot.</li>
+</ol>
+<h2 id="notes-and-common-improvements">Notes and common improvements<a class="headerlink" href="#notes-and-common-improvements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Use a seasonal lookback</strong>: For monthly data, <code>LOOKBACK=12</code> is a strong baseline; try <code>24</code> if you have enough data.</li>
+<li><strong>Multistep forecasting</strong>: Predict 3–6 months ahead by changing the target indexing in <code>make_sequences</code>.</li>
+<li><strong>More features</strong>: Add engineered lag features (e.g., rainfall lags) or rolling aggregates.</li>
+<li><strong>Regularization</strong>: Increase dropout, add L2, or reduce <code>LSTM_UNITS</code> if overfitting.</li>
+<li><strong>Better splits</strong>: Prefer date-based splits (e.g., train: 1990–2013, val: 2014–2016, test: 2017–2019) for clearer reporting.</li>
+</ul>
+<hr />
+<div class="grid">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg></span> <a class="md-button" href="../artificial-neural-network/">Artificial Neural Network</a></p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span> <a class="md-button md-button--primary" href="../../resources/libraries/">Time Series Libraries</a></p>
+</div>
 
 
 
