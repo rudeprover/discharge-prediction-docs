@@ -31,6 +31,7 @@
 }
 
 /* Page-to-page navigation buttons (prev/next) */
+.page-nav,
 .md-typeset .page-nav {
   display: flex;
   flex-wrap: wrap;
@@ -41,10 +42,12 @@
   margin-top: 1.5rem;
 }
 
+.page-nav > p,
 .md-typeset .page-nav > p {
   margin: 0;
 }
 
+.page-nav > p:last-child,
 .md-typeset .page-nav > p:last-child {
   margin-left: auto;
   text-align: right;
